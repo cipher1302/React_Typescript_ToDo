@@ -1,35 +1,15 @@
-import { useEffect, useState } from "react";
 import FormComponent from "../FormComponent/FormComponent";
+import type { FormInterface } from "./types/types";
 import scss from "./MainComponent.module.scss";
-import type { FormInterface, TodoItem } from "./types/types";
-import { nanoid } from "nanoid";
-import TaskComponent from "../TaskComponent/TaskComponent";
 
-const MainComponent = () => {
-  const [todo, setTodo] = useState<TodoItem[]>(() => {
-    const savedTodos = localStorage.getItem("todos");
-    return savedTodos ? JSON.parse(savedTodos) : [];
-  });
+interface Props {
+  handleForm: (data: FormInterface) => void;
+}
 
-  const handleForm = (data: FormInterface) => {
-    const newTodoItem: TodoItem = {
-      id: nanoid(),
-      ...data,
-    };
-
-    setTodo((prev) => [...prev, newTodoItem]);
-  };
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todo));
-  }, [todo]);
-
+const MainComponent = ({ handleForm }: Props) => {
   return (
     <div className={scss.container_main}>
       <FormComponent onSubmit={handleForm} />
-      {todo.map((task) => {
-        return <TaskComponent key={task.id} task={task} />;
-      })}
     </div>
   );
 };

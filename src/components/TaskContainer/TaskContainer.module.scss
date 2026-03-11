@@ -1,0 +1,11 @@
+.task_container {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 600px;
+  margin: 0 auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding: 20px;
+  background-color: #121212;
+}
