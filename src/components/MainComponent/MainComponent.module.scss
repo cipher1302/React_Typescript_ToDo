@@ -4,7 +4,8 @@
   width: 100%;
   margin: 0 auto;
   height: 100vh;
-
+  display: flex;
+  flex-direction: column;
   h2 {
     color: #e5e5e5;
   }

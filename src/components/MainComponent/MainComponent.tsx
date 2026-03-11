@@ -1,14 +1,15 @@
 import { useState } from "react";
 import FormComponent from "../FormComponent/FormComponent";
 import scss from "./MainComponent.module.scss";
-import type { FormInterface } from "./types/types";
+import type { FormInterface, TodoItem } from "./types/types";
 import { nanoid } from "nanoid";
+import TaskComponent from "../TaskComponent/TaskComponent";
 
 const MainComponent = () => {
-  const [todo, setTodo] = useState<FormInterface[]>([]);
+  const [todo, setTodo] = useState<TodoItem[]>([]);
   const handleForm = (data: FormInterface) => {
-    const newTodoItem = {
-      id: nanoid,
+    const newTodoItem: TodoItem = {
+      id: nanoid(),
       ...data,
     };
 
@@ -19,6 +20,9 @@ const MainComponent = () => {
   return (
     <div className={scss.container_main}>
       <FormComponent onSubmit={handleForm} />
+      {todo.map((task) => {
+        return <TaskComponent key={task.id} task={task} />;
+      })}
     </div>
   );
 };
