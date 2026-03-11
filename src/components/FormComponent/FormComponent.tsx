@@ -1,13 +1,24 @@
 import { useForm } from "react-hook-form";
-import type { FormInterface } from "../MainComponent/types/types";
 import scss from "./FormComponent.module.scss";
+import { FormSchema } from "./schema/FormSchema";
+import type { FormInterface } from "../MainComponent/types/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ErrorComponent from "../ErrorComponent/ErrorComponent";
 
 interface Props {
   onSubmit: (data: FormInterface) => void;
 }
 
 const FormComponent = ({ onSubmit }: Props) => {
-  const { register, handleSubmit, reset } = useForm<FormInterface>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormInterface>({
+    mode: "onBlur",
+    resolver: zodResolver(FormSchema),
+  });
 
   const submitHandler = (data: FormInterface) => {
     onSubmit(data);
@@ -21,13 +32,18 @@ const FormComponent = ({ onSubmit }: Props) => {
       <form onSubmit={handleSubmit(submitHandler)}>
         <div className={scss.user_box}>
           <input type="text" required {...register("name")} />
+
           <label>Task name</label>
         </div>
+        {errors.name && <ErrorComponent error={errors.name.message} />}
 
         <div className={scss.user_box}>
           <input type="text" required {...register("description")} />
           <label>Description</label>
         </div>
+        {errors.description && (
+          <ErrorComponent error={errors.description.message} />
+        )}
 
         <button type="submit">Add Task</button>
       </form>
