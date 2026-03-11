@@ -25,11 +25,20 @@ function App() {
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todo));
   }, [todo]);
+
+  const handleDelete = (id: string) => {
+    setTodo((prev) =>
+      prev.filter((todo) => {
+        return todo.id !== id;
+      }),
+    );
+  };
+
   return (
     <>
       <HeaderComponent />
       <MainComponent handleForm={handleForm} />
-      <TaskContainer todo={todo} />
+      <TaskContainer todo={todo} onDelete={handleDelete} />
     </>
   );
 }
