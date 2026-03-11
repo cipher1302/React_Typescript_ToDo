@@ -1,8 +1,8 @@
 .task_container {
   padding-top: 30px;
   background-color: #121212;
-  min-width: 600px;
-  width: 100px;
+  max-width: 600px;
+  width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
   h2 {
@@ -18,9 +18,9 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
   background-color: #121212;
   box-sizing: border-box;
+  padding: 10px;
 
   &.empty {
     display: flex;
