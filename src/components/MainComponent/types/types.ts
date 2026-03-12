@@ -1,6 +1,12 @@
 export interface FormInterface {
   name: string;
   description: string;
+  image: File | null;
 }
 
-export type TodoItem = FormInterface & { id: string };
+export interface TodoItem {
+  id: string;
+  name: string;
+  description: string;
+  image: string | null;
+}

@@ -20,7 +20,7 @@ const FormComponent = ({ onSubmit }: Props) => {
     resolver: zodResolver(FormSchema),
   });
 
-  const submitHandler = (data: FormInterface) => {
+  const submitHandler = async (data: FormInterface) => {
     onSubmit(data);
     reset();
   };
@@ -44,6 +44,16 @@ const FormComponent = ({ onSubmit }: Props) => {
         {errors.description && (
           <ErrorComponent error={errors.description.message} />
         )}
+        <div className={scss.import_box}>
+          <input
+            type="file"
+            accept="image/*"
+            {...register("image", {
+              setValueAs: (files: FileList) => files?.[0] ?? null,
+            })}
+          />
+          <p>Load your picture or leave it blank</p>
+        </div>
 
         <button type="submit">Add Task</button>
       </form>

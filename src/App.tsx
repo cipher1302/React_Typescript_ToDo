@@ -13,10 +13,39 @@ function App() {
     return savedTodos ? JSON.parse(savedTodos) : [];
   });
 
-  const handleForm = (data: FormInterface) => {
+  const convertToB64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      reader.onload = () => resolve(reader.result as string);
+
+      reader.onerror = reject;
+    });
+  };
+
+  const handleForm = async (data: FormInterface) => {
+    let image: string | null = null;
+
+    let file: File | null = null;
+
+    if (data.image instanceof File) {
+      file = data.image;
+    } else if (data.image && (data.image as FileList).length) {
+      file = (data.image as FileList)[0] ?? null;
+    }
+
+    if (file) {
+      image = await convertToB64(file);
+    } else {
+      image = null;
+    }
     const newTodoItem: TodoItem = {
       id: nanoid(),
-      ...data,
+      name: data.name,
+      description: data.description,
+      image,
     };
 
     setTodo((prev) => [...prev, newTodoItem]);
