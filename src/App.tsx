@@ -26,21 +26,11 @@ function App() {
   };
 
   const handleForm = async (data: FormInterface) => {
-    let image: string | null = null;
+    const file =
+      data.image instanceof File ? data.image : (data.image?.[0] ?? null);
 
-    let file: File | null = null;
+    const image = file ? await convertToB64(file) : null;
 
-    if (data.image instanceof File) {
-      file = data.image;
-    } else if (data.image && (data.image as FileList).length) {
-      file = (data.image as FileList)[0] ?? null;
-    }
-
-    if (file) {
-      image = await convertToB64(file);
-    } else {
-      image = null;
-    }
     const newTodoItem: TodoItem = {
       id: nanoid(),
       name: data.name,
